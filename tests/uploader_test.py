@@ -184,7 +184,7 @@ P9/AFGGFyjOXZtQAAAAAElFTkSuQmCC\
         different_coordinates = [[122, 32, 111, 152]]
         custom_coordinates = [1, 2, 3, 4]
         uploader.explicit(result["public_id"], face_coordinates=different_coordinates,
-                          custom_coordinates=custom_coordinates, faces=True, type="upload")
+                          custom_coordinates=custom_coordinates, type="upload")
         info = api.resource(result["public_id"], faces=True, coordinates=True)
         self.assertEqual(different_coordinates, info["faces"])
         self.assertEqual({"faces": different_coordinates, "custom": [custom_coordinates]}, info["coordinates"])
@@ -221,13 +221,13 @@ P9/AFGGFyjOXZtQAAAAAElFTkSuQmCC\
     @unittest.skipUnless(cloudinary.config().api_secret, "requires api_key/api_secret")
     def test_detection(self):
         """ should support requesting detection """
-        with six.assertRaisesRegex(self, api.Error, 'illegal is not a valid'): 
+        with six.assertRaisesRegex(self, api.Error, 'illegal is not a valid'):
             uploader.upload(TEST_IMAGE, detection="illegal", tags=[UNIQUE_TAG])
 
     @unittest.skipUnless(cloudinary.config().api_secret, "requires api_key/api_secret")
     def test_auto_tagging(self):
         """ should support requesting auto_tagging """
-        with six.assertRaisesRegex(self, api.Error, 'Must use'): 
+        with six.assertRaisesRegex(self, api.Error, 'Must use'):
             uploader.upload(TEST_IMAGE, auto_tagging=0.5, tags=[UNIQUE_TAG])
 
     @unittest.skipUnless(cloudinary.config().api_secret, "requires api_key/api_secret")
