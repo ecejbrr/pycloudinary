@@ -180,6 +180,8 @@ class ApiTest(unittest.TestCase):
         self.assertNotEqual(resource, None)
         self.assertEqual(resource["public_id"], API_TEST_ID)
         self.assertEqual(resource["bytes"], 3381)
+        import time
+        time.sleep(2)
         self.assertEqual(len(resource["derived"]), 1, "{} should have one derived resource.".format(API_TEST_ID))
 
     @unittest.skipUnless(cloudinary.config().api_secret, "requires api_key/api_secret")
