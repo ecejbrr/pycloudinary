@@ -40,30 +40,11 @@ API_TEST_PRESET4 = "api_test_upload_preset_{}4".format(SUFFIX)
 
 
 class ApiTest(unittest.TestCase):
-    initialized = False
-
-    def setUp(self):
-        if ApiTest.initialized:
-            return
-        ApiTest.initialized = True
+    @classmethod
+    def setUpClass(cls):
         cloudinary.reset_config()
         if not cloudinary.config().api_secret:
             return
-        try:
-            api.delete_resources([API_TEST_ID, API_TEST_ID2, API_TEST_ID3])
-        except Exception:
-            pass
-        for transformation in [API_TEST_TRANS, API_TEST_TRANS2, API_TEST_TRANS3]:
-            try:
-                api.delete_transformation(transformation)
-            except Exception:
-                pass
-        for preset in [API_TEST_PRESET, API_TEST_PRESET2, API_TEST_PRESET3, API_TEST_PRESET4]:
-            try:
-                api.delete_upload_preset(preset)
-            except Exception:
-                pass
-
         for id in [API_TEST_ID, API_TEST_ID2]:
             uploader.upload("tests/logo.png",
                             public_id=id, tags=[API_TEST_TAG, ],
