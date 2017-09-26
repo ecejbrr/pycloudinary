@@ -282,7 +282,10 @@ class ApiTest(unittest.TestCase):
     @unittest.skipUnless(cloudinary.config().api_secret, "requires api_key/api_secret")
     def test17_transformation_implicit(self):
         """ should allow deleting implicit transformation """
-        api.create_transformation(API_TEST_TRANS2, {"crop": "scale", "width": 104})
+        uploader.upload("tests/logo.png",
+                        tags=[API_TEST_TAG, ],
+                        context="key=value", eager=[{"width": 104, "crop": "scale"}],
+                        overwrite=True)
         api.transformation("c_scale,w_104")
         api.delete_transformation("c_scale,w_104")
         self.assertRaises(api.NotFound, api.transformation, "c_scale,w_104")
