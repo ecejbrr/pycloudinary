@@ -23,6 +23,7 @@ else:
 
 disable_warnings()
 
+UNIQUE_TAG = 'api_{}'.format(UNIQUE_TAG)
 API_TEST_TAG = "api_test_{}_tag".format(SUFFIX)
 API_TEST_PREFIX = "api_test_{}".format(SUFFIX)
 API_TEST_ID = "api_test_{}".format(SUFFIX)
@@ -180,8 +181,6 @@ class ApiTest(unittest.TestCase):
         self.assertNotEqual(resource, None)
         self.assertEqual(resource["public_id"], API_TEST_ID)
         self.assertEqual(resource["bytes"], 3381)
-        import time
-        time.sleep(2)
         self.assertEqual(len(resource["derived"]), 1, "{} should have one derived resource.".format(API_TEST_ID))
 
     @unittest.skipUnless(cloudinary.config().api_secret, "requires api_key/api_secret")

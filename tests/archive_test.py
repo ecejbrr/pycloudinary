@@ -15,7 +15,7 @@ from .test_helper import *
 
 disable_warnings()
 
-TEST_TAG = "pycloudinary_test_{}".format(SUFFIX)
+TEST_TAG = "arch_pycloudinary_test_{}".format(SUFFIX)
 
 
 class ArchiveTest(unittest.TestCase):
