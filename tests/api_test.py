@@ -75,6 +75,7 @@ class ApiTest(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
+        print("tearDownClass for API_TEST_TAG={}".format(API_TEST_TAG))
         try:
             api.delete_resources([API_TEST_ID, API_TEST_ID2, API_TEST_ID3, API_TEST_ID4, API_TEST_ID5])
         except Exception:
@@ -202,11 +203,8 @@ class ApiTest(unittest.TestCase):
         uploader.upload("tests/logo.png", public_id=API_TEST_ID3)
         resource = api.resource(API_TEST_ID3)
         self.assertNotEqual(resource, None)
-        api.delete_resources([API_TEST_ID, API_TEST_ID2, API_TEST_ID3])
+        api.delete_resources([API_TEST_ID2, API_TEST_ID3])
         self.assertRaises(api.NotFound, api.resource, API_TEST_ID3)
-        # restore resource for further tests
-        uploader.upload("tests/logo.png", public_id=API_TEST_ID,
-                        tags=[API_TEST_TAG, ], eager=[{"width": 100, "crop": "scale"}])
 
     @unittest.skipUnless(cloudinary.config().api_secret, "requires api_key/api_secret")
     def test09a_delete_resources_by_prefix(self):
