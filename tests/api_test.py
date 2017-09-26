@@ -43,30 +43,12 @@ API_TEST_PRESET4 = "api_test_upload_preset_{}4".format(SUFFIX)
 class ApiTest(unittest.TestCase):
     initialized = False
 
-    def setUp(self):
-        print("API_TEST_TAG={}".format(API_TEST_TAG))
-        if ApiTest.initialized:
-            print("ApiTest already initialized")
-            return
-        ApiTest.initialized = True
+    @classmethod
+    def setUpClass(cls):
+        print("setUpClass API_TEST_TAG={}".format(API_TEST_TAG))
         cloudinary.reset_config()
         if not cloudinary.config().api_secret:
             return
-        # try:
-        #     api.delete_resources([API_TEST_ID, API_TEST_ID2, API_TEST_ID3])
-        # except Exception:
-        #     pass
-        for transformation in [API_TEST_TRANS, API_TEST_TRANS2, API_TEST_TRANS3]:
-            try:
-                api.delete_transformation(transformation)
-            except Exception:
-                pass
-        for preset in [API_TEST_PRESET, API_TEST_PRESET2, API_TEST_PRESET3, API_TEST_PRESET4]:
-            try:
-                api.delete_upload_preset(preset)
-            except Exception:
-                pass
-
         for id in [API_TEST_ID, API_TEST_ID2]:
             uploader.upload("tests/logo.png",
                             public_id=id, tags=[API_TEST_TAG, ],
@@ -300,9 +282,10 @@ class ApiTest(unittest.TestCase):
     @unittest.skipUnless(cloudinary.config().api_secret, "requires api_key/api_secret")
     def test17_transformation_implicit(self):
         """ should allow deleting implicit transformation """
-        api.transformation("c_scale,w_100")
-        api.delete_transformation("c_scale,w_100")
-        self.assertRaises(api.NotFound, api.transformation, "c_scale,w_100")
+        api.create_transformation(API_TEST_TRANS2, {"crop": "scale", "width": 104})
+        api.transformation("c_scale,w_104")
+        api.delete_transformation("c_scale,w_104")
+        self.assertRaises(api.NotFound, api.transformation, "c_scale,w_104")
 
     @unittest.skipUnless(cloudinary.config().api_secret, "requires api_key/api_secret")
     def test18_usage(self):
